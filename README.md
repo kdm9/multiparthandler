@@ -3,8 +3,10 @@ This is an updated version of MultipartPostHandler, which
 
 License:
 =======
-MultipartPostHandler-0.2.0 is licensed under the LGPL v2.1
-Copyright 2012 by Kevin Murray. All rights reserved.
+MultipartPostHandler-0.2.0 is licensed under the LGPL v2.1 <br />
+Copyright 2012 by Kevin Murray. All rights reserved. <br />
+NOTE: This is not an official updated version, and is not affiliated
+with the original author.
 
 Usage:
 ======
