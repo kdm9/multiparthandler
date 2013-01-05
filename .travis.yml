@@ -13,6 +13,7 @@ install:
 
 script:
  - "cd MultipartPostHandler"
+ - "export PYTHONPATH=`pwd`"
  - "for test in Tests/test_*.py; do python $test || exit 1; done"
 
 
