@@ -8,7 +8,7 @@
 """Module to allow urllib2 to POST to multipart/form-data forms
 """
 import urllib2
-import mimetools
+import uuid
 import mimetypes
 
 
@@ -48,7 +48,9 @@ class MultipartPostHandler(urllib2.BaseHandler):
         """Forms the multipart post request text.
         """
         if boundary is None:
-            boundary = mimetools.choose_boundary()
+            boundary = uuid.uuid1()
+            # using a uuid as boundry, mimetools.choose_boundary() is
+            # deprecated
         if data is None:
             data = ''
         for(key, value) in params:
