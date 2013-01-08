@@ -17,21 +17,24 @@ class MultipartPostHandler_t(unittest.TestCase):
     # Uncomment this, and the tests should fail
     # test_url = "http://www.google.com/"
     opener = a_urllib.build_opener(MultipartPostHandler)
-    validator_result_re = "3 Errors, 4 warning\(s\)"  # expected re pattern
+    validator_result_re = r"3 Errors, 4 warning\(s\)"  # expected re pattern
 
     def setUp(self):
-        self.test_html = self.opener.open(self.test_url).read()
+        self.test_html = str(self.opener.open(self.test_url).read(),
+                encoding="UTF-8")
 
     def test_post_as_file(self):
-        temp = tempfile.mkstemp(suffix=".html")
-        os.write(temp[0], self.test_html )
+        tmp_fd, tmp_fn = tempfile.mkstemp(suffix=".html")
+        with open(tmp_fn, "w") as tmp_fh:
+            tmp_fh.write(self.test_html)
         params = {
             "ss" : "0", # show source
             "doctype" : "Inline",
-            "uploaded_file" : open(temp[1], "rb")
+            "uploaded_file" : open(tmp_fn, "r")
             }
-        response_html = self.opener.open(self.validator_url, params).read()
-        os.remove(temp[1])
+        response_html = str(self.opener.open(self.validator_url,
+            params).read(), encoding="UTF-8")
+        os.remove(tmp_fn)
         re_match = re.search(self.validator_result_re, response_html)
         self.assertTrue(re_match is not None)
 
@@ -41,7 +44,8 @@ class MultipartPostHandler_t(unittest.TestCase):
             "doctype" : "Inline",
             "fragment" : self.test_html
             }
-        response_html = self.opener.open(self.validator_url, params).read()
+        response_html = str(self.opener.open(self.validator_url,
+            params).read(), encoding="UTF-8")
         re_match = re.search(self.validator_result_re, response_html)
         self.assertTrue(re_match is not None)
 
