@@ -7,16 +7,21 @@
 
 """Module to allow urllib2 to POST to multipart/form-data forms
 """
-import urllib2
+# Python 3 import hackery, not sure if 2to3 will screw with this
+try:
+    import urllib2 as a_urllib 
+except ImportError:
+    import urllib.request as a_urllib
+
 import uuid
 import mimetypes
 
 
-class MultipartPostHandler(urllib2.BaseHandler):
+class MultipartPostHandler(a_urllib.BaseHandler):
     """
     Handler class to allow urllib2 to POST to multipart/form-data forms.
     """
-    handler_order = urllib2.HTTPHandler.handler_order - 10  # needs to run 1st
+    handler_order = a_urllib.HTTPHandler.handler_order - 10  # needs to run 1st
 
     def __init__(self):
         pass

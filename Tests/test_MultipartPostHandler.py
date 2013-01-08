@@ -1,7 +1,10 @@
 import unittest
 import tempfile
 import os
-import urllib2
+try:  # Py3 hackery, needs to be tested w/ 2to3
+    import urllib2 as a_urllib
+except ImportError:
+    import urllib.request as a_urllib
 import re
 from MultipartPostHandler import MultipartPostHandler
 
@@ -13,7 +16,7 @@ class MultipartPostHandler_t(unittest.TestCase):
         "TheProject.html")
     # Uncomment this, and the tests should fail
     # test_url = "http://www.google.com/"
-    opener = urllib2.build_opener(MultipartPostHandler)
+    opener = a_urllib.build_opener(MultipartPostHandler)
     validator_result_re = "3 Errors, 4 warning\(s\)"  # expected re pattern
 
     def setUp(self):
