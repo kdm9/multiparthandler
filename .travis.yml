@@ -1,16 +1,10 @@
-
 language: python
 python:
  - "2.6"
  - "2.7"
  - "pypy"
 
-install:
- - "python --version"
- - "git clone https://github.com/kdmurray91/MultipartPostHandler.git MultipartPostHandler"
-
 script:
- - "cd MultipartPostHandler"
  - "export PYTHONPATH=`pwd`"
  - "for test in Tests/test_*.py; do python $test || exit 1; done"
 
