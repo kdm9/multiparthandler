@@ -20,8 +20,11 @@ class MultipartPostHandler_t(unittest.TestCase):
     validator_result_re = r"3 Errors, 4 warning\(s\)"  # expected re pattern
 
     def setUp(self):
-        self.test_html = str(self.opener.open(self.test_url).read()).\
-                encode("UTF-8")
+        # Some inter-version portability here.
+        # Python 2 returns a str from .read(), py3 returns bytes. if we convert
+        # this to bytes, then we can reproducibly decode it to a string.
+        self.test_html = bytes(self.opener.open(self.test_url).read()).\
+                decode("UTF-8")
 
     def test_post_as_file(self):
         tmp_fd, tmp_fn = tempfile.mkstemp(suffix=".html")
@@ -32,8 +35,9 @@ class MultipartPostHandler_t(unittest.TestCase):
             "doctype" : "Inline",
             "uploaded_file" : open(tmp_fn, "r")
             }
-        response_html = bytes(self.opener.open(self.validator_url,
-            params).read()).encode("UTF-8")
+        # Portablity hack as above
+        response_html = bytes(self.opener.open(self.validator_url, params).\
+                read()).decode("UTF-8")
         os.remove(tmp_fn)
         re_match = re.search(self.validator_result_re, response_html)
         self.assertTrue(re_match is not None)
@@ -44,9 +48,11 @@ class MultipartPostHandler_t(unittest.TestCase):
             "doctype" : "Inline",
             "fragment" : self.test_html
             }
-        response_html = bytes(self.opener.open(self.validator_url,
-            params).read()).encode("UTF-8")
+        # Portablity hack as above
+        response_html = bytes(self.opener.open(self.validator_url, params).\
+                read()).decode("UTF-8")
         re_match = re.search(self.validator_result_re, response_html)
+        print(re_match.group())
         self.assertTrue(re_match is not None)
 
 
