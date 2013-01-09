@@ -1,7 +1,10 @@
 import unittest
 import tempfile
 import os
-import urllib2
+try:  # Py3 hackery, needs to be tested w/ 2to3
+    import urllib2 as a_urllib
+except ImportError:
+    import urllib.request as a_urllib
 import re
 from MultipartPostHandler import MultipartPostHandler
 
@@ -13,22 +16,29 @@ class MultipartPostHandler_t(unittest.TestCase):
         "TheProject.html")
     # Uncomment this, and the tests should fail
     # test_url = "http://www.google.com/"
-    opener = urllib2.build_opener(MultipartPostHandler)
-    validator_result_re = "3 Errors, 4 warning\(s\)"  # expected re pattern
+    opener = a_urllib.build_opener(MultipartPostHandler)
+    validator_result_re = r"3 Errors, 4 warning\(s\)"  # expected re pattern
 
     def setUp(self):
-        self.test_html = self.opener.open(self.test_url).read()
+        # Some inter-version portability here.
+        # Python 2 returns a str from .read(), py3 returns bytes. if we convert
+        # this to bytes, then we can reproducibly decode it to a string.
+        self.test_html = bytes(self.opener.open(self.test_url).read()).\
+                decode("UTF-8")
 
     def test_post_as_file(self):
-        temp = tempfile.mkstemp(suffix=".html")
-        os.write(temp[0], self.test_html )
+        tmp_fd, tmp_fn = tempfile.mkstemp(suffix=".html")
+        with open(tmp_fn, "w") as tmp_fh:
+            tmp_fh.write(self.test_html)
         params = {
             "ss" : "0", # show source
             "doctype" : "Inline",
-            "uploaded_file" : open(temp[1], "rb")
+            "uploaded_file" : open(tmp_fn, "r")
             }
-        response_html = self.opener.open(self.validator_url, params).read()
-        os.remove(temp[1])
+        # Portablity hack as above
+        response_html = bytes(self.opener.open(self.validator_url, params).\
+                read()).decode("UTF-8")
+        os.remove(tmp_fn)
         re_match = re.search(self.validator_result_re, response_html)
         self.assertTrue(re_match is not None)
 
@@ -38,8 +48,11 @@ class MultipartPostHandler_t(unittest.TestCase):
             "doctype" : "Inline",
             "fragment" : self.test_html
             }
-        response_html = self.opener.open(self.validator_url, params).read()
+        # Portablity hack as above
+        response_html = bytes(self.opener.open(self.validator_url, params).\
+                read()).decode("UTF-8")
         re_match = re.search(self.validator_result_re, response_html)
+        print(re_match.group())
         self.assertTrue(re_match is not None)
 
 
