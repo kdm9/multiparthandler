@@ -21,10 +21,11 @@ class MultipartPostHandler(a_urllib.BaseHandler):
     """
     Handler class to allow urllib2 to POST to multipart/form-data forms.
     """
-    handler_order = a_urllib.HTTPHandler.handler_order - 10  # needs to run 1st
+    # Needs to run first
+    handler_order = a_urllib.HTTPHandler.handler_order - 10 
 
-    def __init__(self):
-        pass
+#    def __init__(self):
+#        pass
 
     def http_request(self, request):
         """Processes request parameters and returns request object.
@@ -62,7 +63,7 @@ class MultipartPostHandler(a_urllib.BaseHandler):
                 data += ' name="%s"; filename="%s"\r\n' % (key, filename)
                 data += 'Content-Type: %s\r\n' % contenttype
                 value.seek(0)
-                data += '\r\n%s\r\n' % value.read()#.encode("UTF-8")
+                data += '\r\n%s\r\n' % value.read()
             except AttributeError:
                 # If it's not, then it must be a 
                 data += '--%s\r\n' % boundary

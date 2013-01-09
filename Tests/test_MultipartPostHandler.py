@@ -20,8 +20,8 @@ class MultipartPostHandler_t(unittest.TestCase):
     validator_result_re = r"3 Errors, 4 warning\(s\)"  # expected re pattern
 
     def setUp(self):
-        self.test_html = str(self.opener.open(self.test_url).read(),
-                encoding="UTF-8")
+        self.test_html = str(self.opener.open(self.test_url).read()).\
+                encode("UTF-8")
 
     def test_post_as_file(self):
         tmp_fd, tmp_fn = tempfile.mkstemp(suffix=".html")
@@ -32,8 +32,8 @@ class MultipartPostHandler_t(unittest.TestCase):
             "doctype" : "Inline",
             "uploaded_file" : open(tmp_fn, "r")
             }
-        response_html = str(self.opener.open(self.validator_url,
-            params).read(), encoding="UTF-8")
+        response_html = bytes(self.opener.open(self.validator_url,
+            params).read()).encode("UTF-8")
         os.remove(tmp_fn)
         re_match = re.search(self.validator_result_re, response_html)
         self.assertTrue(re_match is not None)
@@ -44,8 +44,8 @@ class MultipartPostHandler_t(unittest.TestCase):
             "doctype" : "Inline",
             "fragment" : self.test_html
             }
-        response_html = str(self.opener.open(self.validator_url,
-            params).read(), encoding="UTF-8")
+        response_html = bytes(self.opener.open(self.validator_url,
+            params).read()).encode("UTF-8")
         re_match = re.search(self.validator_result_re, response_html)
         self.assertTrue(re_match is not None)
 
