@@ -52,7 +52,6 @@ class MultipartPostHandler_t(unittest.TestCase):
         response_html = bytes(self.opener.open(self.validator_url, params).\
                 read()).decode("UTF-8")
         re_match = re.search(self.validator_result_re, response_html)
-        print(re_match.group())
         self.assertTrue(re_match is not None)
 
 
