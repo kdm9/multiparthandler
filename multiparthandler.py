@@ -1,4 +1,4 @@
-# MultipartPostHandler-0.2.0 is licensed under the LGPL v2.1
+# multiparthandler is licensed under the LGPL v2.1
 # Copyright 2012 by Kevin Murray.  All rights reserved.
 
 # This borrrows heavily from the MultipartPostHandler module by Will Holcomb
@@ -7,25 +7,22 @@
 
 """Module to allow urllib2 to POST to multipart/form-data forms
 """
-# Python 3 import hackery, not sure if 2to3 will screw with this
+# Python 3 import hackery
 try:
     import urllib2 as a_urllib 
 except ImportError:
     import urllib.request as a_urllib
-
 import uuid
 import mimetypes
 
 
-class MultipartPostHandler(a_urllib.BaseHandler):
+class multiparthandler(a_urllib.BaseHandler):
     """
     Handler class to allow urllib2 to POST to multipart/form-data forms.
     """
+
     # Needs to run first
     handler_order = a_urllib.HTTPHandler.handler_order - 10 
-
-#    def __init__(self):
-#        pass
 
     def http_request(self, request):
         """Processes request parameters and returns request object.
@@ -71,7 +68,6 @@ class MultipartPostHandler(a_urllib.BaseHandler):
                 data += '\r\n\r\n%s\r\n' % value
         # Remember to add a final boundry
         data += '--%s--\r\n\r\n' % boundary
-        
         return boundary, data.encode("UTF-8")
 
     https_request = http_request
