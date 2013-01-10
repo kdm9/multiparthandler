@@ -13,7 +13,6 @@ from multiparthandler import multiparthandler
 
 
 class multiparthandler_t(unittest.TestCase):
-    
     validator_url = "http://validator.w3.org/check"
     test_url = ("http://www.w3.org/History/19921103-hypertext/hypertext/WWW/"
         "TheProject.html")
@@ -34,12 +33,12 @@ class multiparthandler_t(unittest.TestCase):
         with open(tmp_fn, "w") as tmp_fh:
             tmp_fh.write(self.test_html)
         params = {
-            "ss" : "0", # show source
-            "doctype" : "Inline",
-            "uploaded_file" : open(tmp_fn, "r")
+            "ss": "0",  # show source
+            "doctype": "Inline",
+            "uploaded_file": open(tmp_fn, "r")
             }
         # Portablity hack as above
-        response_html = bytes(self.opener.open(self.validator_url, params).\
+        response_html = bytes(self.opener.open(self.validator_url, params).
                 read()).decode("UTF-8")
         os.remove(tmp_fn)
         re_match = re.search(self.validator_result_re, response_html)
@@ -47,16 +46,15 @@ class multiparthandler_t(unittest.TestCase):
 
     def test_post_as_var(self):
         params = {
-            "ss" : "0", # show source
-            "doctype" : "Inline",
-            "fragment" : self.test_html
+            "ss": "0",  # show source
+            "doctype": "Inline",
+            "fragment": self.test_html
             }
         # Portablity hack as above
-        response_html = bytes(self.opener.open(self.validator_url, params).\
+        response_html = bytes(self.opener.open(self.validator_url, params).
                 read()).decode("UTF-8")
         re_match = re.search(self.validator_result_re, response_html)
         self.assertTrue(re_match is not None)
-
 
 
 if __name__ == "__main__":

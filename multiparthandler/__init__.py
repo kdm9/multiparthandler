@@ -9,7 +9,7 @@
 """
 # Python 3 import hackery
 try:
-    import urllib2 as a_urllib 
+    import urllib2 as a_urllib
 except ImportError:
     import urllib.request as a_urllib
 import uuid
@@ -22,7 +22,7 @@ class multiparthandler(a_urllib.BaseHandler):
     """
 
     # Needs to run first
-    handler_order = a_urllib.HTTPHandler.handler_order - 10 
+    handler_order = a_urllib.HTTPHandler.handler_order - 10
 
     def http_request(self, request):
         """Processes request parameters and returns request object.
@@ -33,7 +33,8 @@ class multiparthandler(a_urllib.BaseHandler):
             for(key, value) in data.items():
                 req_params.append((key, value))
             boundary, data = self.multipart_encode(req_params)
-            contenttype = 'multipart/form-data; charset=UTF-8; boundary=%s' % boundary
+            contenttype = 'multipart/form-data; charset=UTF-8; boundary=%s'\
+             % boundary
             request.add_unredirected_header('Content-Type', contenttype)
             request.add_data(data)
         return request
@@ -56,13 +57,13 @@ class multiparthandler(a_urllib.BaseHandler):
                 if not contenttype:
                     contenttype = 'application/octet-stream'
                 data += '--%s\r\n' % boundary
-                data += 'Content-Disposition: form-data;'  # continued next line
+                data += 'Content-Disposition: form-data;'
                 data += ' name="%s"; filename="%s"\r\n' % (key, filename)
                 data += 'Content-Type: %s\r\n' % contenttype
                 value.seek(0)
                 data += '\r\n%s\r\n' % value.read()
             except AttributeError:
-                # If it's not, then it must be a 
+                # If it's not, then it must be a keyword parameter
                 data += '--%s\r\n' % boundary
                 data += 'Content-Disposition: form-data; name="%s"' % key
                 data += '\r\n\r\n%s\r\n' % value
