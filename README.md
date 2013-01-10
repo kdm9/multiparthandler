@@ -1,23 +1,22 @@
 multiparthandler:
 ================
 
-A module to allow urllib2 to POST to multipart/form-data forms.
+A module to allow urllib2 and urllib.request to POST multipart requests.
 This is an updated version of MultipartPostHandler, by Will Holcomb.
 The original module has been modernized, and made compatible with Python 3.x.
 
 License:
 =======
-multiparthandler-0.2.0 is licensed under the LGPL v2.1 <br />
-Copyright 2012 by Kevin Murray. All rights reserved. <br />
-NOTE: This is not an official updated version, and is not affiliated
-with the original author.
+Copyright (c) 2o12 Kevin Murray k.d.murray.91@gmail.com <br />
 
-Usage:
-======
-Enables the use of multipart/form-data for posting forms
+multiparthandler is licensed under the LGPL v3
+See <http://www.gnu.org/copyleft/lesser.html> for full license text.<br />
 
-Example:
-=======
+NOTE: This is not an official updated version of MultipartPostHandler,
+and is not affiliated with the original author in any way.
+
+Example Usage:
+==============
 (Adapted from MultipartPostHandler's example)
 ```
 >>>import multiparthandler

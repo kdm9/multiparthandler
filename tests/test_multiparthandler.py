@@ -1,3 +1,6 @@
+# Copyright (c) 2o12 Kevin Murray k.d.murray.91@gmail.com
+# multiparthandler is licensed under the LGPL v3
+
 import unittest
 import tempfile
 import os

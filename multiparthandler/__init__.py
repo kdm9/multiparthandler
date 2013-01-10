@@ -1,5 +1,5 @@
-# multiparthandler is licensed under the LGPL v2.1
-# Copyright 2012 by Kevin Murray.  All rights reserved.
+# Copyright (c) 2o12 Kevin Murray k.d.murray.91@gmail.com
+# multiparthandler is licensed under the LGPL v3
 
 # This borrows heavily from the MultipartPostHandler module by Will Holcomb
 # <wholcomb@gmail.com>, available at:
