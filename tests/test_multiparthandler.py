@@ -1,6 +1,6 @@
 # Copyright (c) 2o12 Kevin Murray k.d.murray.91@gmail.com
 # multiparthandler is licensed under the LGPL v3
-
+from __future__ import with_statement
 import unittest
 import tempfile
 import os
@@ -10,7 +10,6 @@ except ImportError:
     import urllib.request as a_urllib
 import re
 from multiparthandler import multiparthandler
-from __future__ import with_statement
 
 class multiparthandler_t(unittest.TestCase):
     validator_url = "http://validator.w3.org/check"
