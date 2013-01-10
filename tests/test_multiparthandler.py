@@ -6,17 +6,17 @@ try:  # Py3 hackery, needs to be tested w/ 2to3
 except ImportError:
     import urllib.request as a_urllib
 import re
-from MultipartPostHandler import MultipartPostHandler
+from multiparthandler import multiparthandler
 
 
-class MultipartPostHandler_t(unittest.TestCase):
+class multiparthandler_t(unittest.TestCase):
     
     validator_url = "http://validator.w3.org/check"
     test_url = ("http://www.w3.org/History/19921103-hypertext/hypertext/WWW/"
         "TheProject.html")
     # Uncomment this, and the tests should fail
     # test_url = "http://www.google.com/"
-    opener = a_urllib.build_opener(MultipartPostHandler)
+    opener = a_urllib.build_opener(multiparthandler)
     validator_result_re = r"3 Errors, 4 warning\(s\)"  # expected re pattern
 
     def setUp(self):
