@@ -1,7 +1,7 @@
 # multiparthandler is licensed under the LGPL v2.1
 # Copyright 2012 by Kevin Murray.  All rights reserved.
 
-# This borrrows heavily from the MultipartPostHandler module by Will Holcomb
+# This borrows heavily from the MultipartPostHandler module by Will Holcomb
 # <wholcomb@gmail.com>, available at:
 # http://pypi.python.org/pypi/MultipartPostHandler/
 
@@ -43,7 +43,7 @@ class multiparthandler(a_urllib.BaseHandler):
         """
         if boundary is None:
             boundary = uuid.uuid1()
-            # using a uuid as boundry, mimetools.choose_boundary() is
+            # using a uuid as boundary, mimetools.choose_boundary() is
             # deprecated
         if data is None:
             data = ''
@@ -66,7 +66,7 @@ class multiparthandler(a_urllib.BaseHandler):
                 data += '--%s\r\n' % boundary
                 data += 'Content-Disposition: form-data; name="%s"' % key
                 data += '\r\n\r\n%s\r\n' % value
-        # Remember to add a final boundry
+        # Remember to add a final boundary
         data += '--%s--\r\n\r\n' % boundary
         return boundary, data.encode("UTF-8")
 
