@@ -10,5 +10,3 @@ python:
 script:
  - "export PYTHONPATH=`pwd`"
  - "for test in tests/test_*.py; do python $test || exit 1; done"
-
-
