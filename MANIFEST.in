@@ -1,4 +1,0 @@
-include README
-include setup.py
-recursive-include multiparthandler *.py
-recursive-include tests *.py
